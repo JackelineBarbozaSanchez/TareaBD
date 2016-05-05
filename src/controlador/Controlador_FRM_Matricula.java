@@ -33,34 +33,35 @@ public class Controlador_FRM_Matricula implements ActionListener{
         
         if(e.getActionCommand().equals("ConsultaRapidaCedula"))
         {
-           // if(metodosEstudiantes.consultarEstudiante(frm_matricula.devolverCedula()))
-//            {
-//               // String arreglo[]=metodosEstudiantes.getArregloInformacion();
-//              //  frm_matricula.colocarNombreEstudiante(arreglo[0]);
-//                encontroEstudiante=true;
-//            }
-//            //else
-//            {
-//                frm_matricula.mostrarMensaje("El estudiante no se encuentra, favor dirigirse al módulo de Mantenimiento Estudiantes");
-//            }
+            if(conexionBD.consultarEstudiante(frm_matricula.devolverCedula()))
+            {
+                String arreglo[]= conexionBD.getInfoEstudiante();
+                frm_matricula.colocarNombreEstudiante(arreglo[0]);
+                encontroEstudiante=true;
+            }
+            else
+            {
+                frm_matricula.mostrarMensaje("El estudiante no se encuentra, favor dirigirse al módulo de Mantenimiento Estudiantes");
+            }
             
         }
         if(e.getActionCommand().equals("ConsultaRapidaSigla"))
-//        {
-//          //  if(metodosCursos.consultarCurso(frm_matricula.devolverSigla()))
-//            //{
-//               // String arreglo[]=metodosCursos.getArregloInformacion();
-//                //frm_matricula.colocarNombreCurso(arreglo[0]);
-//                encontroCurso=true;
-//            }
-//           // else
-//            {
-//                frm_matricula.mostrarMensaje("El curso no se encuentra, favor dirigirse al módulo de Mantenimiento Cursos");
-//            }
-        //}
+        {
+            if(conexionBD.consultarCurso(frm_matricula.devolverSigla()))
+            {
+                String arreglo[]=conexionBD.getInfoCurso();
+                frm_matricula.colocarNombreCurso(arreglo[0]);
+                encontroCurso=true;
+            }
+            else
+            {
+                frm_matricula.mostrarMensaje("El curso no se encuentra, favor dirigirse al módulo de Mantenimiento Cursos");
+            }
+        }
         if(e.getActionCommand().equals("Agregar"))
         {
             frm_matricula.agregarInformacionTabla();
+            
             frm_matricula.limpiarSigla();
         }
         if(e.getActionCommand().equals("Finalizar"))
@@ -71,7 +72,7 @@ public class Controlador_FRM_Matricula implements ActionListener{
                 arreglo[0]=frm_matricula.devolverCodigo();
                 arreglo[1]=frm_matricula.devolverDato(contador,1);
                 arreglo[2]=frm_matricula.devolverDato(contador,3);
-              //  metodosMatricula.agregarMatricula(arreglo);
+                conexionBD.agregarMatricula(arreglo);
             }
             frm_matricula.colocarCodigo();
             frm_matricula.resetearVentana();
@@ -80,14 +81,7 @@ public class Controlador_FRM_Matricula implements ActionListener{
         }
         if(e.getActionCommand().equals("Consultar"))
         {
-//           // if(metodosMatricula.consultarMatricula(frm_matricula.devolverCodigo()))
-//            {
-//
-//            }
-//           // else
-//            {
-//            
-//            }
+            conexionBD.consultarMatricula(frm_matricula.devolverCodigo(),frm_matricula);
         
         }
         verificarConsultas();

@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vista.FRM_Matricula;
 
 
 
@@ -205,4 +206,64 @@ public class ConexionBD {
         }
     }//Fin de modificarEstudiante
     
+    
+    public void consultarMatricula(String codigo,FRM_Matricula frm_Matricula)
+    {
+        String []arreglo= new String [4];
+        try {
+            Statement statement = con.createStatement();
+            
+            ResultSet resultSet= statement.executeQuery("SELECT * FROM `detalle_matricula` WHERE codigo='"+codigo+"'");
+            while (resultSet.next())
+            {
+                arreglo[0]= codigo;
+                arreglo[1]= resultSet.getString(2);
+                consultarEstudiante(arreglo[1]);
+                arreglo[2] = arregloEstudiante[0];
+                arreglo[3]= resultSet.getString(3);
+                
+                frm_Matricula.agregarInformacionTablaBD(arreglo);
+            }
+        } 
+        catch (Exception e) {
+            System.out.println("Error en la matricula"+e.getMessage());
+        }
+    }//fin de buscar matricula
+    
+    public boolean agregarMatricula(String []datos)
+    {
+       boolean guarda= false;
+        try {
+            Statement statement=con.createStatement();
+            statement.execute("INSERT INTO `detalle_matricula`(`codigo`, `cedula`, `sigla`) VALUES ( '"+datos[0]+"','"+datos[1]+"','"+datos[2]+"')");
+            guarda=true;
+        } catch (Exception e) {
+            System.out.println("Error al agregar"+e.getMessage());
+        }
+        return guarda;
+    }//fin de agregar 
+    
+//    public boolean modificarMatricula()
+//    {
+//        try {
+//            
+//        } 
+//        catch (Exception e) {
+//        }
+//    }
+    
+    public boolean eliminarMatricula(String codigo)
+    {
+        boolean elimino= false;
+        try {
+            Statement statement= con.createStatement();
+            statement.executeUpdate("DELETE FROM `detalle_matricula` WHERE codigo='"+codigo+"'");
+        elimino = true ;
+        }
+        
+        catch (Exception e) {
+            System.out.println("No se pudo eliminar"+e.getMessage());
+        }
+        return elimino;
+    }
 }//fin d clase 

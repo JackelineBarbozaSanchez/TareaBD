@@ -40,6 +40,15 @@ public class FRM_Matricula extends javax.swing.JFrame {
         modelo.addRow(arreglo);
         
     }
+    
+    
+    
+        public void agregarInformacionTablaBD(String arreglo[])
+    {
+               
+        modelo.addRow(arreglo);
+        
+    }
     public void agregarEventos()
     {
         this.btn_ConsultaRapidaCedula.addActionListener(controlador);
